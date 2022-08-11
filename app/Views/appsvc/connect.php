@@ -7,7 +7,7 @@
                 <option value="<?=$objEmp->stf_fid?>"><?=$objEmp->stf_name?></option>
                 <?php endforeach;?>
             </select>
-            <input type="text" placeholder="아이디 || 캐릭" id="search_txt" style="width: 150px;" >
+            <input type="text" placeholder="아이디" id="search_txt" style="width: 150px;" >
             <button class="left-button" onclick="findConnector()">검색</button>
             
         </div>
@@ -55,5 +55,5 @@
     }
 </style>
 
-<script src="<?php echo base_url('/assets/js/appsvc/connect-common_v1.js');?>"></script>
+<script src="<?php echo base_url('/assets/js/appsvc/connect-common.js');?>"></script>
 <script src="<?php echo base_url('/assets/js/appsvc/connect.js');?>"></script>

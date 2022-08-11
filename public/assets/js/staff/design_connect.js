@@ -32,70 +32,135 @@ function getTdHtml(objField) {
     tHtml += "<td>";
     tHtml += "<input type=\"text\" name=\"" + field + "\" value=\"" + objField.value + "\">";
     tHtml += "</td>";
-    if (field == "user_info") {
+    switch(field) {
+    case "user_info" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>오토정보</td>";
-    } else if (field == "guser_info") {
+        break;
+    case "guser_info" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>게임유저정보(도메인, 유저명, 베팅상태)</td>";
-    } else if (field == "real_money") {
+        break;
+    case "real_money" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>실제금액상태(시작, 현재, 손실금액)</td>";
-    } else if (field == "virt_money") {
+        break;
+    case "virt_money" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>가상금액상태(시작, 현재, 손실금액)</td>";
-    } else if (field == "room_0") {
+        break;
+    case "room_0" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>1번방(레벨, 승수:패수)</td>";
-    } else if (field == "room_1") {
+        break;
+    case "room_1" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>2번방(레벨, 승수:패수)</td>";
-    } else if (field == "room_2") {
+        break;
+    case "room_2" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>3번방(레벨, 승수:패수)</td>";
-    } else if (field == "room_3") {
+        break;
+    case "room_3" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>4번방(레벨, 승수:패수)</td>";
-    } else if (field == "memo_1") {
+        break;
+    case "memo_1" :
         tHtml += "<td>문자열</td>";
         tHtml += "<td>memo_1</td>";
-    } else if (field == "memo_2") {
+        break;
+    case "memo_2" :
         tHtml += "<td>문자열</td>";
         tHtml += "<td>memo_2</td>";
-    } else if (field == "memo_3") {
+        break;
+    case "memo_3" :
         tHtml += "<td>문자열</td>";
         tHtml += "<td>memo_3</td>";
-    } else if (field == "memo_4") {
+        break;
+    case "memo_4" :
         tHtml += "<td>문자열</td>";
         tHtml += "<td>memo_4</td>";
-    } else if (field == "memo_5") {
+        break;
+    case "memo_5" :
         tHtml += "<td>문자열</td>";
         tHtml += "<td>memo_5</td>";
-    } else if (field == "prop_1") {
+        break;
+    case "memo_6" :
+        tHtml += "<td>문자열</td>";
+        tHtml += "<td>memo_6</td>";
+        break;
+    case "memo_7" :
+        tHtml += "<td>문자열</td>";
+        tHtml += "<td>memo_7</td>";
+        break;
+    case "memo_8" :
+        tHtml += "<td>문자열</td>";
+        tHtml += "<td>memo_8</td>";
+        break;
+    case "memo_9" :
+        tHtml += "<td>텍스트</td>";
+        tHtml += "<td>memo_9</td>";
+        break;
+    case "memo_10" :
+        tHtml += "<td>텍스트</td>";
+        tHtml += "<td>memo_10</td>";
+        break;
+    case "prop_1" :
         tHtml += "<td>숫자</td>";
         tHtml += "<td>prop_1</td>";
-    } else if (field == "prop_2") {
+        break;
+    case "prop_2" :
         tHtml += "<td>숫자</td>";
         tHtml += "<td>prop_2</td>";
-    } else if (field == "prop_3") {
+        break;
+    case "prop_3" :
         tHtml += "<td>숫자</td>";
         tHtml += "<td>prop_3</td>";
-    } else if (field == "prop_4") {
+        break;
+    case "prop_4" :
         tHtml += "<td>숫자</td>";
         tHtml += "<td>prop_4</td>";
-    } else if (field == "prop_5") {
+        break;
+    case "prop_5" :
         tHtml += "<td>숫자</td>";
         tHtml += "<td>prop_5</td>";
-    } else if (field == "sess_time") {
+        break;
+    case "prop_6" :
+        tHtml += "<td>숫자</td>";
+        tHtml += "<td>prop_6</td>";
+        break;
+    case "prop_7" :
+        tHtml += "<td>숫자</td>";
+        tHtml += "<td>prop_7</td>";
+        break;
+    case "prop_8" :
+        tHtml += "<td>숫자</td>";
+        tHtml += "<td>prop_8</td>";
+        break;
+    case "prop_9" :
+        tHtml += "<td>숫자</td>";
+        tHtml += "<td>prop_9</td>";
+        break;
+    case "prop_10" :
+        tHtml += "<td>숫자</td>";
+        tHtml += "<td>prop_10</td>";
+        break;
+    case "sess_time" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>세션시간(시작, 마감시간)</td>";
-    } else if (field == "app_name") {
+        break;
+    case "app_name" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>제품정보(제품명, 버젼정보)</td>";
-    } else if (field == "ip_addr") {
+        break;
+    case "ip_addr" :
         tHtml += "<td>구조체</td>";
         tHtml += "<td>아이피주소</td>";
-    } else tHtml += "<td></td><td></td>";
+        break;
+    default : 
+        tHtml += "<td></td><td></td>";
+        break;
+    }
 
     tHtml += "<td><select>";
     tHtml += "<option value=\"0\" ";
