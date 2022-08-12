@@ -20,6 +20,7 @@
                 </td>
                 <td></td>
             </tr>
+            
             <tr>
                 <td></td>
                 <td><label>회원닉네임:</label></td>
@@ -57,12 +58,34 @@
             </tr>
             <tr>
                 <td></td>
-                <td><label>생성개수:</label></td>
+                <td><label>생성갯수:</label></td>
                 <td>
-                    <input type = "number" id="mb_count" min="0" max="100" step="1" style="font-size: 14px; width:150px;">
+                    <input type = "number" id="mb_count" min="0" max="100" step="1" placeholder="생성갯수" style="font-size: 14px; width:150px;">
                 </td>
                 <td></td>
             </tr>
+            <tr>
+                <td></td>
+                <td><label>아이디 길이:</label></td>
+                <td>	
+                    <input type = "number" id="mb_uid_digit" min="1" max="100" step="1" value="20" placeholder="아이디길이" style="font-size: 14px; width:150px;"> 
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><label>비밀번호:</label></td>
+                <td>	
+                    <select id="mb_pwd_type" style="width:165px;" onChange="changePwdType()">
+                        <option value="0">고정</option>
+                        <option value="1">랜덤</option>
+                        </select>
+                    <input type = "text" style="width:230px" id="mb_pwd_str" placeholder="비번">                    
+                    <input type = "number" style="width:100px" id="mb_pwd_digit" min="1" max="100" step="1" value="8" placeholder="비번길이"  hidden> 
+                </td>
+                <td></td>
+            </tr>
+            
             <tr>
                 <td></td>
                 <td colspan="2">
@@ -113,4 +136,4 @@
 </div>
 
 
-<script src="<?php echo base_url('/assets/js/appsvc/member_mreg.js');?>"></script>
+<script src="<?php echo base_url('/assets/js/appsvc/member_mreg.js?t=').time();?>"></script>

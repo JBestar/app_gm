@@ -1412,7 +1412,10 @@ class Apps extends BaseController
 
 	public function member_createids($app)
 	{
-		$create_count = $this->request->getVar('create_count');
+		$createCnt = $this->request->getVar('create_count');
+		$uidLen = intval($this->request->getVar('uid_length'));
+		$pwdLen = intval($this->request->getVar('pwd_length'));
+		$pwdStr = $this->request->getVar('pwd_str');
 
 		$result = new \StdClass;
 		if(!is_login())
@@ -1435,6 +1438,10 @@ class Apps extends BaseController
 				$bPermit = false;
 			else if(!isPermitCategory($objAdmin, $objCat))
 				$bPermit = false;
+			else if($uidLen < 1 || $createCnt < 1)
+				$bPermit = false;
+			else if($pwdLen < 1 && strlen($pwdStr) < 1)
+				$bPermit = false;
 
 			if(!$bPermit){
 				$result->status = "fail";
@@ -1450,12 +1457,14 @@ class Apps extends BaseController
 				$arrData = [];
 				$arrIds = [];
 				$nCount = 0;
-				while ($nCount < $create_count)  
+				while ($nCount < $createCnt)  
 				{  		
 								
 					//$strId = generateId($seed++);
-					$strId = $keygen->generateString(20, $seed+=1111);
-					$strPwd = $keygen->generateString(8, $seed+=1111);
+					$strId = "T".$keygen->generateString($uidLen-1, $seed+=1111);
+					if($pwdLen > 0)
+						$strPwd = $keygen->generateString($pwdLen, $seed+=1111);
+					else $strPwd = $pwdStr;
 
 					if(!in_array($strId, $arrIds) && is_null($member_model->getByUid($strId))){
 						$objData = new \StdClass;

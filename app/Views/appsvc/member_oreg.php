@@ -83,7 +83,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><label>생성개수:</label></td>
+                <td><label>생성갯수:</label></td>
                 <td>
                     <input type = "number" id="mb_count" min="0" max="100" step="1" style="font-size: 14px; width:150px;">
                 </td>

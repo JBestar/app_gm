@@ -33,12 +33,12 @@ function autoCreate() {
 
     var create_count = $('#mb_count').val().length > 0 ? parseInt($('#mb_count').val()) : 0;
     if (create_count < 1) {
-        alert("생성개수를 정확히 입력해주십시오.");
+        alert("생성갯수를 정확히 입력해주십시오.");
         return;
     }
 
     if (create_count >= 100) {
-        alert("생성개수를 초과하셧습니다.");
+        alert("최대 생성갯수를 초과하셧습니다.");
         return;
     }
 

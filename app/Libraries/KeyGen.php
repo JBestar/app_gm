@@ -9,7 +9,7 @@ class KeyGen
         $characters .= "abcdefghijklmnopqrstuvwxyz";  
         $characters .= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";  
         
-        $randStr = "T";  
+        $randStr = "";  
         
         $nmr_loops = $length;  
         

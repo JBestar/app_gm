@@ -12,6 +12,7 @@
                 <button class="left-button" onclick="findMember()">회원검색</button>
             </div>
             <div style="float:right;">
+                <a href="/<?=$cat_name?>/member_mreg" class="right-button">오토등록</a>
                 <a href="/<?=$cat_name?>/member_oreg" class="right-button">멀티등록</a>
                 <a href="/<?=$cat_name?>/member_edit/0" class="right-button">회원등록</a>
             </div>

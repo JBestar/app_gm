@@ -16,17 +16,63 @@ function showIdAndPwd(arrData) {
     $("#tb-data-id").html(tHtml);
 }
 
-function autoCreate() {
+function changePwdType() {
+    if ($('#mb_pwd_type').val() == 0) {
+        $('#mb_pwd_str').show();
+        $('#mb_pwd_digit').hide();
+    } else {
+        $('#mb_pwd_str').hide();
+        $('#mb_pwd_digit').show();
+    }
+}
 
-    var create_count = $("#mb_count").val();
-    if (create_count < 1) {
-        alert("생성개수를 정확히 입력해주십시오.");
+function autoCreate() {
+    var uid_digit = $("#mb_uid_digit").val();
+    
+    if (uid_digit < 3 || uid_digit > 50) {
+        alert("아이디 길이는 3~50자리입니다.");
         return;
     }
 
+    let pwd_type = $('#mb_pwd_type').val();
+
+    let pwd_str = '';
+    let pwd_digit = 0;
+    if (pwd_type == 0) {
+        pwd_str = $('#mb_pwd_str').val();
+
+        if (pwd_str.length < 3 || pwd_str.length > 20) {
+            alert("비번길이는 3~20자리입니다.");
+            return;
+        }
+
+    } else {
+        pwd_digit = $('#mb_pwd_digit').val().length > 0 ? parseInt($('#mb_pwd_digit').val()) : 0;
+
+        if (pwd_digit < 3 || pwd_digit > 20) {
+            alert("비번길이는 3~20자리입니다.");
+            return;
+        }
+        if (pwd_digit < 3 || pwd_digit > 20) {
+            alert("비번길이는 3~20자리입니다.");
+            return;
+        }
+    }
+    
+
+    var create_count = $("#mb_count").val();
+    if (create_count < 1) {
+        alert("생성갯수를 정확히 입력해주십시오.");
+        return;
+    }
+    if (create_count >= 100) {
+        alert("최대 생성갯수를 초과하셧습니다.");
+        return;
+    }
     var url = getAppUrl("member_createids");
 
-    var send_data = { create_count: create_count };
+    var send_data = { create_count: create_count, 
+        uid_length : uid_digit, pwd_length : pwd_digit, pwd_str :pwd_str };
 
     $.ajax({
         type: "POST",
@@ -74,7 +120,7 @@ function saveMember() {
     if (!confirm("저장하시겠습니까?"))
         return;
 
-    var url = getAppUrl("member_create");
+    var url = getAppUrl("member_creates");
 
     $.ajax({
         type: "POST",
@@ -82,7 +128,7 @@ function saveMember() {
         url: url,
         data: { json_: jsonData },
         success: function(jResult) {
-            // console.log(jResult);
+            console.log(jResult);
             if (jResult.status == "success") {
                 location.replace(getAppUrl("member"));
             } else if (jResult.status == "logout") {
