@@ -2414,7 +2414,7 @@ class Apps extends BaseController
 				} else {
 					
 					$sess_id = $this->session->session_id;
-					$bRepeatConn = $conn_model->hasRepeatUid($objMember->mb_uid);
+					$bRepeatConn = $conn_model->hasRepeatUid($objMember->mb_uid, $ip_address);
 
 					$tmNow = time();
 					$tmLimit = strtotime($objMember->mb_time_limit);
@@ -2429,7 +2429,7 @@ class Apps extends BaseController
 					} else if($this->categoryName == "luckysheet" && $objMember->mb_prop_1 == 1 ){
 						$arrResult['result'] = APPRESULT_BLOCK;
 					} else {
-						if($force == 1 && $bRepeatConn)
+						// if($force == 1 && $bRepeatConn)
 							$conn_model->deleteByUid($objMember->mb_uid);
 
 						if($conn_model->register($sess_id, $objMember, $ip_address)) {

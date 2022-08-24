@@ -148,7 +148,7 @@ class Connect_Model extends Model {
 
     function deleteLast(){
         
-        $tmLimit = date("Y-m-d H:i:s", strtotime("-5 minutes", time()));
+        $tmLimit = date("Y-m-d H:i:s", strtotime("-1 minutes", time()));
 
         $this->mBuilder->where('sess_time_last < ', $tmLimit);
         return $this->mBuilder->delete();   //if success, return true
@@ -216,13 +216,31 @@ class Connect_Model extends Model {
     }
 
 
-    function hasRepeatUid($mb_uid) {
-        $arrConn = $this->getByUid($mb_uid);
-        if(is_null($arrConn))
+    function hasRepeatUid($mb_uid, $ip_addr = "") {
+
+        $where = "sess_mb_uid = '".$sess_mb_uid."' ";
+        if(strlen($ip_addr) > 0){
+            $where .= " AND sess_pub_addr = '".$ip_addr."' )";            
+        }
+
+        try {             
+            $this->mBuilder ->select($this->mTbColumn)
+                            ->where('sess_mb_uid', $sess_mb_uid)
+                            ->getCompiledSelect(false);
+            $query = $this->mBuilder->get();
+            $arrConn = $query->getResult();
+        
+            if(is_null($arrConn))
+                return false;
+            if(count($arrConn) < 1)
+                return false;
+            return true;
+            
+        } catch (\Exception $e) {  
             return false;
-        if(count($arrConn) < 1)
-            return false;
-        return true;
+        }
+        return false;
+
     }
 
 
