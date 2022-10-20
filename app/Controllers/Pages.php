@@ -27,6 +27,12 @@ class Pages extends BaseController
 	}
 
 
+	public function ipaddr(){
+		
+		$arrResult['ip'] = $this->request->getIPAddress();
+
+		echo json_encode($arrResult);
+	}
 
 	//--------------------------------------------------------------------
 

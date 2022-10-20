@@ -73,6 +73,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Staff::index');
+$routes->get('ipaddr', 'Pages::ipaddr');
 $routes->get('staff/(:segment)', 'Staff::$1');
 $routes->get('staff/(:segment)/(:segment)', 'Staff::$1/$2');
 $routes->get('pages/(:segment)', 'Pages::$1');

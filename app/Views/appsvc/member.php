@@ -31,6 +31,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th>기기설정</th>
                     </tr>
                 </thead>
                 <tbody id="tb-data-id">
@@ -54,5 +55,5 @@
 </div>
 
 
-<script src="<?php echo base_url('/assets/js/appsvc/member-common.js');?>"></script>
-<script src="<?php echo base_url('/assets/js/appsvc/member.js');?>"></script>
+<script src="<?php echo base_url('/assets/js/appsvc/member-common.js?v=1');?>"></script>
+<script src="<?php echo base_url('/assets/js/appsvc/member.js?t=1').time();?>"></script>

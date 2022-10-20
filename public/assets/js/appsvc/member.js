@@ -39,9 +39,16 @@
     
             tHtml += "<td><button name=\"1week\" value=\"" + arrMember[idx].mb_fid + "\">1주연장</button>";
             tHtml += "<button name=\"2week\" value=\"" + arrMember[idx].mb_fid + "\">2주연장</button>";
-            tHtml += "<button name=\"1month\" value=\"" + arrMember[idx].mb_fid + "\" >1달연장</button></td>";
-            
-            tHtml += "</tr>";
+            tHtml += "<button name=\"1month\" value=\"" + arrMember[idx].mb_fid + "\" >1달연장</button>";
+            tHtml += "</td><td>";
+            if (arrMember[idx].mb_memo_1.length > 0) {
+                tHtml += " <span style='color:red; margin-right:5px;'> &nbsp;등록&nbsp;</span>";
+                tHtml += " <button name=\"machine\" value=\"" + arrMember[idx].mb_fid + "\" >초기화</button>";
+            } else {
+                tHtml += " <span style='color:black; margin-right:5px;'>미등록 </span>";
+            }
+
+            tHtml += "</td></tr>";
         }
     }
  
@@ -79,10 +86,16 @@
             } else if(this.name == "1month"){
                 jsonData = { "mb_fid":this.value, "mb_time_limit":"3"};
                 requestUpdateMember(jsonData);
+            } else if(this.name == "machine"){
+                if(confirm("초기화하시겠습니까?")) {
+                    jsonData = { "mb_fid":this.value, "mb_memo_1":""};
+                    requestUpdateMember(jsonData);
+                }
             } 
         });
  
     }
+
  }
 
 

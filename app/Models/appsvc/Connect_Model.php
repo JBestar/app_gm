@@ -135,12 +135,14 @@ class Connect_Model extends Model {
     }
 
     function deleteById($sess_id){
-
+        $this->mBuilder->resetQuery();
+        
         $this->mBuilder->where('sess_id', $sess_id);
         return $this->mBuilder->delete();   //if success, return true
     }
 
     function deleteByUid($sess_mb_uid){
+        $this->mBuilder->resetQuery();
 
         $this->mBuilder->where('sess_mb_uid', $sess_mb_uid);
         return $this->mBuilder->delete();   //if success, return true
@@ -148,7 +150,7 @@ class Connect_Model extends Model {
 
     function deleteLast(){
         
-        $tmLimit = date("Y-m-d H:i:s", strtotime("-1 minutes", time()));
+        $tmLimit = date("Y-m-d H:i:s", strtotime("-".CONNECT_TIMEOUT." minutes", time()));
 
         $this->mBuilder->where('sess_time_last < ', $tmLimit);
         return $this->mBuilder->delete();   //if success, return true
@@ -218,14 +220,13 @@ class Connect_Model extends Model {
 
     function hasRepeatUid($mb_uid, $ip_addr = "") {
 
-        $where = "sess_mb_uid = '".$sess_mb_uid."' ";
+        $where = "sess_mb_uid = '".$mb_uid."' ";
         if(strlen($ip_addr) > 0){
-            $where .= " AND sess_pub_addr = '".$ip_addr."' )";            
+            $where .= " AND sess_pub_addr = '".$ip_addr."' ";            
         }
-
         try {             
             $this->mBuilder ->select($this->mTbColumn)
-                            ->where('sess_mb_uid', $sess_mb_uid)
+                            ->where($where)
                             ->getCompiledSelect(false);
             $query = $this->mBuilder->get();
             $arrConn = $query->getResult();

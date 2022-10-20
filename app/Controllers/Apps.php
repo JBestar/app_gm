@@ -39,6 +39,7 @@ class Apps extends BaseController
 		
 	}
 
+
 	public function notice($app)
 	{
 		if(!is_login())
@@ -2385,6 +2386,7 @@ class Apps extends BaseController
 		$uid = $this->request->getVar('username');
 		$pwd = $this->request->getVar('password');
 		$force = intval($this->request->getVar('force'));
+		$machine = $this->request->getVar('machine');
 		$ip_address = $this->request->getIPAddress();
 		
 		$arrResult = [];
@@ -2426,11 +2428,16 @@ class Apps extends BaseController
 						$arrResult['result'] = APPRESULT_BLOCK;
 					} else if($force != 1 && $bRepeatConn){
 						$arrResult['result'] = APPRESULT_DUPLICATE;
-					} else if($this->categoryName == "luckysheet" && $objMember->mb_prop_1 == 1 ){
+					} else if(strlen($machine) == 0 ){
+						$arrResult['result'] = APPRESULT_BLOCK;
+					} else if(strlen($objMember->mb_memo_1) > 0 && $objMember->mb_memo_1 !== $machine  ){
 						$arrResult['result'] = APPRESULT_BLOCK;
 					} else {
 						// if($force == 1 && $bRepeatConn)
 							$conn_model->deleteByUid($objMember->mb_uid);
+						if(strlen($objMember->mb_memo_1) == 0){
+							$member_model->updateByFid(null, $objMember->mb_fid, ['mb_memo_1'=>$machine]);
+						}
 
 						if($conn_model->register($sess_id, $objMember, $ip_address)) {
 							writeLog($logHead.$this->categoryName.">>userId=".$objMember->mb_uid.">>sessionId=".$sess_id);
@@ -2443,8 +2450,7 @@ class Apps extends BaseController
 							$arrResult['result'] = APPRESULT_OK;
 							$arrResult['remained'] = strval($tmLimit-$tmNow);
 							$arrResult['vip'] = strval($objMember->mb_vip);
-							if($this->categoryName == "luckyfuture" || $this->categoryName == "reantek")		//럭키퓨처
-								$arrResult['order'] = $objMember->mb_prop_1;
+							
 						} else $arrResult['result'] = APPRESULT_FAIL_SAVE;
 						
 					}
@@ -2519,7 +2525,6 @@ class Apps extends BaseController
 				$conn_model = new Connect_Model($this->categoryName);
 				$member_model = new Member_Model($this->categoryName);
 				
-				//$websession = $this->request->getVar('websession');
 				$uid = $this->session->uid;
 				$sess_id = $this->session->session_id;
 				$conn = $conn_model->getById($sess_id);
@@ -2527,7 +2532,10 @@ class Apps extends BaseController
 
 				if(is_null($conn)){
 					$this->app_logout($app);
-					$arrResult['result'] = APPRESULT_LOGOUT;
+					if($conn_model->hasRepeatUid($uid))
+						$arrResult['result'] = APPRESULT_DUPLICATE;
+					else
+						$arrResult['result'] = APPRESULT_LOGOUT;
 					writeLog($logHead.$this->categoryName.">>userId=".$uid.">>session=null");
 					
 				} else if($conn->sess_mb_uid != $uid){

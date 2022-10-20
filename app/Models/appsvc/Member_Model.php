@@ -185,11 +185,17 @@ class Member_Model extends Model {
             $this->mBuilder->set('mb_time_limit', $tmLimit);
         } else if(array_key_exists("mb_prop_1", $arrData)){
             $this->mBuilder->set('mb_prop_1', $arrData['mb_prop_1']);
+        } else if(array_key_exists("mb_memo_1", $arrData)){
+            $this->mBuilder->set('mb_memo_1', $arrData['mb_memo_1']);
         }
         else return false;
 
-        $this->mBuilder->where('mb_fid', $mb_fid)
+        if($arrEmpId == null)
+            $this->mBuilder->where('mb_fid', $mb_fid);
+        else
+            $this->mBuilder->where('mb_fid', $mb_fid)
                        ->whereIn('mb_emp_fid', $arrEmpId);
+
         return $this->mBuilder->update();   //if success, return true
     }
 

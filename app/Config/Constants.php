@@ -82,11 +82,14 @@ defined('BASEURL') || define('BASEURL', $base_url);
 
 defined('WSURL') || define('WSURL', "ws://".$_SERVER['SERVER_ADDR'].":8003");
 
-defined('LOG_WRITE')            || define('LOG_WRITE', false);
+defined('LOG_WRITE')            || define('LOG_WRITE', true);
 defined('LOG_FILE')             || define('LOG_FILE', ROOTPATH."logs".DIRECTORY_SEPARATOR);
 
 defined('DOWNLOADDIR')         || define('DOWNLOADDIR', "download");
 defined('DOWNLOADROOT')        || define('DOWNLOADROOT', ROOTPATH."public".DIRECTORY_SEPARATOR.DOWNLOADDIR.DIRECTORY_SEPARATOR);
+
+defined('CONNECT_TIMEOUT')       || define('CONNECT_TIMEOUT', "10");
+
 
 defined('LEVEL_ADMIN')         || define('LEVEL_ADMIN', 10);
 defined('LEVEL_COMPANY')       || define('LEVEL_COMPANY', 9);

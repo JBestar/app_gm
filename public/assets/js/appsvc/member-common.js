@@ -91,7 +91,7 @@ $(document).ready(function(){
 
 
  
- function requestUpdateMember(jsData){
+ function requestUpdateMember(jsData, alertMsg=null){
  
     var jsonData = JSON.stringify(jsData);
     var url = getAppUrl("member_update");
@@ -104,7 +104,11 @@ $(document).ready(function(){
             //console.log(jResult); 
             if(jResult.status == "success")
             {
-                requestMember();
+                if(alertMsg != null){
+                    if(alertMsg.length > 0)
+                        alert(alertMsg);
+                }
+                else requestMember();
             } else if(jResult.status == "fail")
             {
                 alert('변경이 실패되었습니다.');            
