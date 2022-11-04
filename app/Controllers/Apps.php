@@ -2528,7 +2528,7 @@ class Apps extends BaseController
 				$uid = $this->session->uid;
 				$sess_id = $this->session->session_id;
 				$conn = $conn_model->getById($sess_id);
-				writeLog($logHead.$this->categoryName.">>userId=".$uid.">>sessionId=".$sess_id);
+
 
 				if(is_null($conn)){
 					$this->app_logout($app);
@@ -2536,7 +2536,7 @@ class Apps extends BaseController
 						$arrResult['result'] = APPRESULT_DUPLICATE;
 					else
 						$arrResult['result'] = APPRESULT_LOGOUT;
-					writeLog($logHead.$this->categoryName.">>userId=".$uid.">>session=null");
+					writeLog($logHead.$this->categoryName.">>userId=".$uid.">>session=".$sess_id."(NotFound)");
 					
 				} else if($conn->sess_mb_uid != $uid){
 					$this->app_logout($app);
@@ -2546,44 +2546,50 @@ class Apps extends BaseController
 					$objMember = $member_model->getByUid($conn->sess_mb_uid) ;
 
 					$tmNow = time();
-					
+
+
 					if(is_null($objMember) ){
 						$arrResult['result'] = APPRESULT_BLOCK;
 					} else if(strtotime($objMember->mb_time_limit) < $tmNow){
 						$arrResult['result'] = APPRESULT_EXPIRED;
-						writeLog($logHead.$this->categoryName.">>userId=".$uid.">>session=expired");
+						writeLog($logHead.$this->categoryName.">>userId=".$uid.">>session=".$sess_id."(Expired)");
 					} else if($objMember->mb_state_active != PERMIT_OK || 
 							!$staff_model->isPermitMember($objMember, $this->categoryId) ||
 							$objCat->cat_stop == 1){
 						$arrResult['result'] = APPRESULT_BLOCK;
-					}  else if($this->categoryName == "luckysheet" && $objMember->mb_prop_1 == 1 ){
-						$arrResult['result'] = APPRESULT_BLOCK;
 					} else {
-						$conn = new \StdClass;
-						$conn->sess_id = $sess_id;
-						$conn->sess_mb_uid = $uid;
-						$conn->sess_pub_addr = $this->request->getIPAddress();
-						$conn->sess_memo_1 = strval($this->request->getVar('memo_1'));
-						$conn->sess_memo_2 = strval($this->request->getVar('memo_2'));
-						$conn->sess_memo_3 = strval($this->request->getVar('memo_3'));
-						$conn->sess_memo_4 = strval($this->request->getVar('memo_4'));
-						$conn->sess_memo_5 = strval($this->request->getVar('memo_5'));
-						$conn->sess_memo_6 = strval($this->request->getVar('memo_6'));
-						$conn->sess_memo_7 = strval($this->request->getVar('memo_7'));
-						$conn->sess_memo_8 = strval($this->request->getVar('memo_8'));
-						$conn->sess_memo_9 = strval($this->request->getVar('memo_9'));
-						$conn->sess_memo_10 = strval($this->request->getVar('memo_10'));
-						$conn->sess_prop_1 = strval($this->request->getVar('prop_1'));
-						$conn->sess_prop_2 = strval($this->request->getVar('prop_2'));
-						$conn->sess_prop_3 = strval($this->request->getVar('prop_3'));
-						$conn->sess_prop_4 = strval($this->request->getVar('prop_4'));
-						$conn->sess_prop_5 = strval($this->request->getVar('prop_5'));
-						$conn->sess_prop_6 = strval($this->request->getVar('prop_6'));
-						$conn->sess_prop_7 = strval($this->request->getVar('prop_7'));
-						$conn->sess_prop_8 = strval($this->request->getVar('prop_8'));
-						$conn->sess_prop_9 = strval($this->request->getVar('prop_9'));
-						$conn->sess_prop_10 = strval($this->request->getVar('prop_10'));
-						$conn_model->updateConnect($conn);
+						$objConn = new \StdClass;
+						$objConn->sess_id = $sess_id;
+						$objConn->sess_mb_uid = $uid;
+						$objConn->sess_pub_addr = $this->request->getIPAddress();
+						$objConn->sess_memo_1 = strval($this->request->getVar('memo_1'));
+						$objConn->sess_memo_2 = strval($this->request->getVar('memo_2'));
+						$objConn->sess_memo_3 = strval($this->request->getVar('memo_3'));
+						$objConn->sess_memo_4 = strval($this->request->getVar('memo_4'));
+						$objConn->sess_memo_5 = strval($this->request->getVar('memo_5'));
+						$objConn->sess_memo_6 = strval($this->request->getVar('memo_6'));
+						$objConn->sess_memo_7 = strval($this->request->getVar('memo_7'));
+						$objConn->sess_memo_8 = strval($this->request->getVar('memo_8'));
+						$objConn->sess_memo_9 = strval($this->request->getVar('memo_9'));
+						$objConn->sess_memo_10 = strval($this->request->getVar('memo_10'));
+						$objConn->sess_prop_1 = strval($this->request->getVar('prop_1'));
+						$objConn->sess_prop_2 = strval($this->request->getVar('prop_2'));
+						$objConn->sess_prop_3 = strval($this->request->getVar('prop_3'));
+						$objConn->sess_prop_4 = strval($this->request->getVar('prop_4'));
+						$objConn->sess_prop_5 = strval($this->request->getVar('prop_5'));
+						$objConn->sess_prop_6 = strval($this->request->getVar('prop_6'));
+						$objConn->sess_prop_7 = strval($this->request->getVar('prop_7'));
+						$objConn->sess_prop_8 = strval($this->request->getVar('prop_8'));
+						$objConn->sess_prop_9 = strval($this->request->getVar('prop_9'));
+						$objConn->sess_prop_10 = strval($this->request->getVar('prop_10'));
+						$objConn->sess_time_write = "";
+						
+						$strNow = date('Y-m-d H:i:s');
+						if(!is_null($conn->sess_time_write) && diffDt($strNow, $conn->sess_time_write) > LOG_DELAY){
+							$objConn->sess_time_write = $strNow;
+							writeLog($logHead.$this->categoryName.">>userId=".$uid.">>sessionId=".$sess_id);
+						}
+						$conn_model->updateConnect($objConn);
 						$update_model = new Update_Model($this->categoryName);
 						$lastUpdate = $update_model->getLast();
 						

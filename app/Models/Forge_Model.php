@@ -131,6 +131,7 @@ class Forge_Model extends Model {
             'sess_id'           => [ 'type' => 'VARCHAR', 'constraint' => '128' ],
             'sess_time_begin'   => [ 'type' => 'DATETIME' ],
             'sess_time_last'    => [ 'type' => 'DATETIME' ],
+            'sess_time_write'   => [ 'type' => 'DATETIME' ],
             'sess_pub_addr'     => [ 'type' => 'VARCHAR', 'constraint' => '60' ],
             'sess_emp_fid'      => [ 'type' => 'INT' ],
             'sess_mb_uid'       => [ 'type' => 'VARCHAR', 'constraint' => '50' ],

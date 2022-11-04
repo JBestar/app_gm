@@ -21,8 +21,8 @@ class Connect_Model extends Model {
         if($this->mDb->tableExists($this->mTbName))
             $this->mBuilder = $this->mDb->table($this->mTbName);
 
-        $this->mTbColumn = ['sess_id', 'sess_time_begin', 'sess_time_last', 'sess_pub_addr', 
-            'sess_emp_fid', 'sess_mb_uid', 
+        $this->mTbColumn = ['sess_id', 'sess_time_begin', 'sess_time_last', 'sess_time_write',  
+            'sess_pub_addr', 'sess_emp_fid', 'sess_mb_uid', 
             'sess_memo_1', 'sess_memo_2', 'sess_memo_3', 'sess_memo_4', 'sess_memo_5', 
             'sess_memo_6', 'sess_memo_7', 'sess_memo_8', 'sess_memo_9', 'sess_memo_10', 
             'sess_prop_1', 'sess_prop_2', 'sess_prop_3', 'sess_prop_4', 'sess_prop_5', 
@@ -74,6 +74,7 @@ class Connect_Model extends Model {
         $this->mBuilder->set('sess_id', $sess_id);
         $this->mBuilder->set('sess_time_begin', 'NOW()', false);
         $this->mBuilder->set('sess_time_last', 'NOW()', false);
+        $this->mBuilder->set('sess_time_write', 'NOW()', false);
         $this->mBuilder->set('sess_pub_addr', $ip_addr);
         $this->mBuilder->set('sess_emp_fid', $objMember->mb_emp_fid);
         $this->mBuilder->set('sess_mb_uid', $objMember->mb_uid);
@@ -86,6 +87,8 @@ class Connect_Model extends Model {
 
 
         $this->mBuilder->set('sess_time_last', 'NOW()', false);
+        if(strlen($conn->sess_time_write) > 0)
+            $this->mBuilder->set('sess_time_write', $conn->sess_time_write);
         $this->mBuilder->set('sess_pub_addr', $conn->sess_pub_addr);
         if(strlen($conn->sess_memo_1) > 0)
             $this->mBuilder->set('sess_memo_1', $conn->sess_memo_1);
