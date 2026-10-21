@@ -2422,6 +2422,8 @@ class Apps extends BaseController
 					$sess_id = $this->session->session_id;
 					$bRepeatConn = $conn_model->hasRepeatUid($objMember->mb_uid, $ip_address);
 
+					$bMachVerify = !in_array($objCat->cat_name, ['hghealer']);
+
 					$tmNow = time();
 					$tmLimit = strtotime($objMember->mb_time_limit);
 					if($tmLimit < $tmNow) {
@@ -2432,14 +2434,14 @@ class Apps extends BaseController
 						$arrResult['result'] = APPRESULT_BLOCK;
 					} else if($force != 1 && $bRepeatConn){
 						$arrResult['result'] = APPRESULT_DUPLICATE;
-					} else if(strlen($machine) == 0 ){
+					} else if($bMachVerify && strlen($machine) == 0 ){
 						$arrResult['result'] = APPRESULT_BLOCK;
-					} else if(strlen($objMember->mb_memo_1) > 0 && $objMember->mb_memo_1 !== $machine  ){
+					} else if($bMachVerify && strlen($objMember->mb_memo_1) > 0 && $objMember->mb_memo_1 !== $machine  ){
 						$arrResult['result'] = APPRESULT_BLOCK;
 					} else {
 						// if($force == 1 && $bRepeatConn)
 							$conn_model->deleteByUid($objMember->mb_uid);
-						if(strlen($objMember->mb_memo_1) == 0){
+						if($bMachVerify && strlen($objMember->mb_memo_1) == 0){
 							$member_model->updateByFid(null, $objMember->mb_fid, ['mb_memo_1'=>$machine]);
 						}
 
