@@ -663,15 +663,19 @@ class Apps extends BaseController
 						$iResult = 0;
 
 						$file_name = $_FILES['upload-file']['name'];
+						writeLog("upload-32=> file_name=".$file_name);
 						$file_size =$_FILES['upload-file']['size'];
+						writeLog("upload-33=> file_size=".$file_size);
 						$file_tmp =$_FILES['upload-file']['tmp_name'];
+						writeLog("upload-34=> file_tmp=".$file_tmp);
 						// $file_type=$_FILES['upload-file']['type'];
 						$arrExt = explode('.', $file_name);
 						$file_ext=strtolower(end($arrExt));
 						// $file_error = $_FILES['upfile']['error'];
 
 						$file_version = $_POST["upload-version"];
-
+						writeLog("upload-35=> file_version=".$file_version);
+							
 						$errors = array();
 						$extensions= array("zip");
 						
