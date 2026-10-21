@@ -2423,6 +2423,8 @@ class Apps extends BaseController
 					$bRepeatConn = $conn_model->hasRepeatUid($objMember->mb_uid, $ip_address);
 
 					$bMachVerify = !in_array($objCat->cat_name, ['hghealer']);
+					$bOtherDevice = !$bMachVerify && strval($objMember->mb_memo_1) !== strval($machine)
+						&& $conn_model->hasRepeatUid($objMember->mb_uid);
 
 					$tmNow = time();
 					$tmLimit = strtotime($objMember->mb_time_limit);
@@ -2432,6 +2434,8 @@ class Apps extends BaseController
 							!$staff_model->isPermitMember($objMember, $this->categoryId) ||
 							$objCat->cat_stop == 1) {
 						$arrResult['result'] = APPRESULT_BLOCK;
+					} else if($bOtherDevice){
+						$arrResult['result'] = APPRESULT_DUPLICATE;
 					} else if($force != 1 && $bRepeatConn){
 						$arrResult['result'] = APPRESULT_DUPLICATE;
 					} else if($bMachVerify && strlen($machine) == 0 ){
@@ -2443,6 +2447,8 @@ class Apps extends BaseController
 							$conn_model->deleteByUid($objMember->mb_uid);
 						if($bMachVerify && strlen($objMember->mb_memo_1) == 0){
 							$member_model->updateByFid(null, $objMember->mb_fid, ['mb_memo_1'=>$machine]);
+						} else if(!$bMachVerify && strval($objMember->mb_memo_1) !== strval($machine)){
+							$member_model->updateByFid(null, $objMember->mb_fid, ['mb_memo_1'=>strval($machine)]);
 						}
 
 						if($conn_model->register($sess_id, $objMember, $ip_address)) {
